@@ -1,0 +1,45 @@
+<!DOCTYPE html5>
+<html>
+
+	<head>
+		
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	</head>
+
+	<body>
+
+		<h1 class="text-center text-primary">Star Wars Quote Machine</h1>
+		<div class="container-fluid">
+			<button class=button>New Quote</button>
+			<div class="quotes">
+				<span class = "quote">This</span>
+			</div>
+
+			<script type="text/javascript">
+				var num;
+				$( document ).ready(function() {
+					generate();
+
+				  function generate()
+				  {
+				    var quotes = ["When 900 years old, you reach… Look as good, you will not.","The Dark Side of the Force is the pathway to many abilities some consider to be… Unnatural.","You don’t know how hard I found it, signing the order to terminate your life","He’s holding a thermal detonator!"];
+
+				   		num = Math.random() * (quotes.length) + 0;
+						$('.quote').text(quotes[num]);
+				  }
+				  
+				  
+				$(".button").on( "click", function() {
+				    generate();
+				});  
+				  
+				});
+			</script>
+		</div>
+		
+	</body>
+</html>

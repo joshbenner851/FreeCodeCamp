@@ -1,0 +1,130 @@
+<!DOCTYPE html5>
+<html>
+
+	<head>
+		
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="text-primary text-center">Javascript Calculator</h1>
+			<h4 class="answer text-center">Answer</h4>
+			<div class="row">
+				<button class="clear col-md-2 col-md-offset-2 btn btn-default">AC</button>
+				<button class="clear col-md-2 btn btn-default">CE</button>
+				<button class="col-md-2 btn btn-default">%</button>
+				<button class="col-md-2 btn btn-default">/</button>
+			</div>
+			<div class="row">
+				<button class="col-md-2 col-md-offset-2 btn btn-default">7</button>
+				<button class="col-md-2 btn btn-default">8</button>
+				<button class="col-md-2 btn btn-default">9</button>
+				<button class="col-md-2 btn btn-default">*</button>
+			</div>
+			<div class="row">
+				<button class="col-md-2 col-md-offset-2 btn btn-default">4</button>
+				<button class="col-md-2 btn btn-default">5</button>
+				<button class="col-md-2 btn btn-default">6</button>
+				<button class="col-md-2 btn btn-default">-</button>
+			</div>
+			<div class="row">
+				<button class="col-md-2 col-md-offset-2 btn btn-default">1</button>
+				<button class="col-md-2 btn btn-default">2</button>
+				<button class="col-md-2 btn btn-default">3</button>
+				<button class="col-md-2 btn btn-default">+</button>
+			</div>
+			<div class="row">
+				<button class="col-md-2 col-md-offset-2 btn btn-default">0</button>
+				<button class="col-md-2 btn btn-default">.</button>
+				<button class="equal col-md-2 btn btn-default">=</button>
+			</div>
+		</div>
+	</body>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			var url = window.location.href;
+			console.log(url);
+			//var respCode = getURLParamater('code');
+			var code = url.match(/\#(?:code)\=([\S\s]*?)\&/);
+			console.log(code);
+			var ops = 0;
+			var sum = 0;
+			var symbol = false;
+			var symbolType;
+			var nums;
+			$("button").on("click",function() {
+				//string of button that was hit
+				var val = $(this).text();
+				//if it's a number lets show it
+				if( !isNaN(val) )
+				{
+					//no chain of numbers, set nums to present num
+					if(nums === undefined){
+						nums = val;
+					}
+					//keep chaining the nums
+					else{
+
+						nums += val;
+						val = parseInt(nums);
+					}
+
+					//answer should show the current numbers that was hit
+					$(".answer").text(nums);
+					/*
+					order of logic
+					sum starts at 0,
+					when a symbol hasn't been hit, it should keep appending the number
+					when a symbol is hit it should cast the previous string to a a number
+					always display current number or numbers
+					after a symbol is hit, do operation to change the sum
+					if equal is hit, display updated sum
+					*/
+					if(ops == 0){
+						sum = parseInt(val);
+						ops++;
+					}
+
+					if(symbol){
+						//nums = undefined;
+						val = parseInt(nums);
+						if(symbolType === "*"){sum*=val;}
+						else if(symbolType === "/"){sum/=val;}
+						else if(symbolType === "+"){sum+=val;}
+						else if(symbolType === "-"){sum-=val;}
+						symbol = false;
+					}
+				}
+				//they button they just hit was a symbol
+				else
+				{
+					nums = undefined;
+					symbol = true;
+					symbolType = $(this).text();
+				}
+
+			});
+
+			//clear was pressed so display empty string
+			$(".clear").on("click", function() {
+				$(".answer").text("");
+				sum = 0;
+				symbol = false;
+				ops = 0;
+			});
+
+			$(".equal").on("click", function(){
+				$(".answer").text(sum);
+				sum = 0;
+				symbol = false;
+				ops = 0;
+			});
+		});
+	</script>
+
+</html>

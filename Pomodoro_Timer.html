@@ -1,0 +1,112 @@
+<!DOCTYPE html5>
+<html>
+
+	<head>
+		
+	    <meta name="viewport" content="width=device-width, initial-scale=1">
+	    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+	    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
+	</head>
+
+	<body>
+		<div class="container">
+			<h1 class="text-primary text-center">Pomodoro Timer</h1>
+			<div class="row">
+				<div class="col-md-2 col-md-offset-4">
+					<p >Break length</p>
+					<p class="break">
+						<button class="breakDecr btn btn-default"> - </button>
+						5
+						<button class="breakIncr btn btn-default"> + </button>
+					</p>
+				</div>
+				<div class="col-md-2">
+					<p >Session length</p>
+					<p class="session">
+						<button class="sessDecr btn btn-default"> - </button>
+						25
+						<button class="sessIncr btn btn-default"> + </button>
+					</p>
+				</div>
+			</div>
+			<p class="clock text-center"><button class="timer btn btn-default">25</button></p>
+		</div>
+		<script type="text/javascript">
+			$(document).ready(function() {
+
+				//integer of the current time
+				var isStarted = false;
+				var currentTime = parseInt($(".clock").text());
+				var minutes, seconds, time, colonPos;
+
+				// Timer is clicked
+				$("timer").on("click", function() {
+
+					time = 1/60;
+					if( isStarted )
+					{
+
+					}
+					else
+					{
+						setInterval(updateTime,time);
+						setTimeout(message,time*60*1000);
+					}
+					//it should be started
+					isStarted = true;
+					time = $(this).text();
+					colonPos = time.indexOf(":");
+
+					if(  colonPos != -1 )
+					{
+						minutes = parseInt(time.substring(0,colonPos));
+						seconds = parseInt(time.substring(colonPos,time.length));
+					}
+					
+					
+				});
+
+				$(".sessDecr").on("click", function() {
+					minutes -= 5;
+					updateClock(minutes);
+				});
+				$(".breakDecr").on("click", function() {
+					minutes -= $(".session").text();
+					updateClock(minutes);
+				});
+				$(".sessIncr").on("click", function() {
+					minutes += $(".session").text();
+					updateClock(minutes);
+				});
+				$(".breakIncr").on("click", function() {
+					minutes += $(".session").text();
+					updateClock(minutes);
+				});
+
+				function updateClock(minutes) {
+					$(".clock").text( String(minutes) + ":" + String(seconds) );
+				}
+
+				function updateTime() {
+					if( seconds-1 <= 0 )
+					{
+						minutes -= 1;
+						seconds = 59;
+					}
+					else 
+					{
+						seconds -= 1;
+					}
+					$(".clock").text( String(minutes) + ":" + String(seconds) );
+				}
+
+				function message() {
+					alert("Your timer is up!");
+				}
+			});
+		</script>
+
+	</body>
+</html>
